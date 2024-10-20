@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
 
-function App() {
+const ColorSelector = ({ colors, onSelect }) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {colors.map((color, index) => (
+        <button key={index} onClick={() => onSelect(color.value)} style={{ margin: '5px' }}>
+          {color.name}
+        </button>
+      ))}
     </div>
   );
-}
+};
 
-export default App;
+const ColorBox = ({ colorName, colorValue }) => {
+  return (
+    <div style={{ backgroundColor: colorValue, width: '200px', height: '200px', margin: '20px auto' }}>
+      <p style={{ color: '#fff', textAlign: 'center' }}>Kiválasztott szín: {colorName}</p>
+    </div>
+  );
+};
+
+export const App = () => {
+  const [selectedColor, setSelectedColor] = useState({ name: 'fehér', value: 'white' });
+
+  const colors = [
+    { name: 'piros', value: 'red' },
+    { name: 'zöld', value: 'green' },
+    { name: 'kék', value: 'blue' },
+    { name: 'sárga', value: 'yellow' },
+    { name: 'rózsaszín', value: 'pink' },
+  ];
+
+  return (
+    <div>
+      <h2>Színválasztó</h2>
+      <ColorSelector colors={colors} onSelect={(colorValue) => {
+        const selected = colors.find(color => color.value === colorValue);
+        setSelectedColor(selected);
+      }} />
+      <ColorBox colorName={selectedColor.name} colorValue={selectedColor.value} />
+    </div>
+  );
+};
