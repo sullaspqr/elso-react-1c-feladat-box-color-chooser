@@ -4,41 +4,32 @@ const ColorSelector = ({ colors, onSelect }) => {
   return (
     <div>
       {colors.map((color, index) => (
-        <button key={index} onClick={() => onSelect(color.value)} style={{ margin: '5px' }}>
-          {color.name}
+        <button key={index} onClick={() => onSelect(color)} style={{ margin: '5px' }}>
+          {color}
         </button>
       ))}
     </div>
   );
 };
 
-const ColorBox = ({ colorName, colorValue }) => {
+const ColorBox = ({ color }) => {
   return (
-    <div style={{ backgroundColor: colorValue, width: '200px', height: '200px', margin: '20px auto' }}>
-      <p style={{ color: '#fff', textAlign: 'center' }}>Kiválasztott szín: {colorName}</p>
+    <div style={{ backgroundColor: color, width: '200px', height: '200px', margin: '20px auto' }}>
+      <p style={{ color: '#fff', textAlign: 'center' }}>Selected Color: {color}</p>
     </div>
   );
 };
 
 export const App = () => {
-  const [selectedColor, setSelectedColor] = useState({ name: 'fehér', value: 'white' });
+  const [selectedColor, setSelectedColor] = useState('white');
 
-  const colors = [
-    { name: 'piros', value: 'red' },
-    { name: 'zöld', value: 'green' },
-    { name: 'kék', value: 'blue' },
-    { name: 'sárga', value: 'yellow' },
-    { name: 'rózsaszín', value: 'pink' },
-  ];
+  const colors = ['red', 'green', 'blue', 'yellow', 'pink'];
 
   return (
     <div>
-      <h2>Színválasztó</h2>
-      <ColorSelector colors={colors} onSelect={(colorValue) => {
-        const selected = colors.find(color => color.value === colorValue);
-        setSelectedColor(selected);
-      }} />
-      <ColorBox colorName={selectedColor.name} colorValue={selectedColor.value} />
+      <h2>Color Picker</h2>
+      <ColorSelector colors={colors} onSelect={setSelectedColor} />
+      <ColorBox color={selectedColor} />
     </div>
   );
 };
